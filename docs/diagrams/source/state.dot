@@ -1,0 +1,8 @@
+digraph G { rankdir=TB; bgcolor="white"; nodesep=0.5; ranksep=0.45;
+node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=15, color="#2f5d3a", fillcolor="#eaf4ec"];
+edge [fontname="Helvetica", fontsize=12, color="#444444"];
+OFFERED; ACCEPTED; CONFIRMED; DISPATCHED; DELIVERED; COMPLETED [fillcolor="#c9e8d0", penwidth=2.5]; CANCELLED [fillcolor="#f7d6d6", color="#a03030"]; EXPIRED [fillcolor="#f7d6d6", color="#a03030"];
+OFFERED -> ACCEPTED [label=" buyer accepts (qty reserved)"]; OFFERED -> EXPIRED [label=" valid_until passed"]; ACCEPTED -> CONFIRMED [label=" seller confirms"]; ACCEPTED -> CANCELLED [label=" either party (qty released)"];
+CONFIRMED -> DISPATCHED [label=" transporter picks up"]; CONFIRMED -> CANCELLED [label=" either party (qty released)"]; DISPATCHED -> DELIVERED [label=" drop done"]; DELIVERED -> COMPLETED [label=" buyer confirms, or auto after 48 h"];
+{rank=same; OFFERED; EXPIRED} {rank=same; ACCEPTED; CANCELLED}
+}

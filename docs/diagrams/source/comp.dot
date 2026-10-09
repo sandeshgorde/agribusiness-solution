@@ -1,0 +1,13 @@
+digraph G { rankdir=TB; bgcolor="white"; nodesep=0.25; ranksep=0.5;
+node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=14, color="#2f5d3a", fillcolor="#eaf4ec"];
+edge [fontname="Helvetica", fontsize=12, color="#444444"];
+UI [label="React UI", fillcolor="#fff4d6", color="#a07800"];
+AUTH [label="AuthController\nPOST /auth/login"]; LOT [label="LotController\n/lots"]; REQ [label="RequirementController\n/requirements"]; OFR [label="OfferController\n/offers"]; ORD [label="OrderController\n/orders"]; SHP [label="ShipmentController\n/shipments"];
+SVC_L [label="LotService"]; SVC_O [label="OfferService"]; SVC_R [label="OrderService\n(state machine)"]; SVC_S [label="ShipmentService"]; NTF [label="NotificationService\n(async @Async)"]; AUD [label="AuditService"];
+REPO [label="JPA Repositories", fillcolor="#e3ecfb", color="#2a4f9c"]; DB [label="PostgreSQL", shape=cylinder, fillcolor="#e3ecfb", color="#2a4f9c"];
+UI -> AUTH; UI -> LOT; UI -> REQ; UI -> OFR; UI -> ORD; UI -> SHP;
+LOT -> SVC_L; OFR -> SVC_O; REQ -> SVC_O; ORD -> SVC_R; SHP -> SVC_S;
+SVC_O -> SVC_L [label="check available_qty"]; SVC_R -> SVC_L [label="deduct qty (1 TX)"]; SVC_S -> SVC_R [label="status callbacks"];
+SVC_R -> NTF; SVC_S -> NTF; SVC_R -> AUD; SVC_S -> AUD; SVC_O -> AUD;
+SVC_L -> REPO; SVC_O -> REPO; SVC_R -> REPO; SVC_S -> REPO; AUD -> REPO; NTF -> REPO; REPO -> DB;
+}

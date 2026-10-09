@@ -1,0 +1,20 @@
+digraph G { rankdir=TB; bgcolor="white"; fontname="Helvetica"; nodesep=0.35; ranksep=0.5;
+node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=16, color="#2f5d3a", fillcolor="#eaf4ec", penwidth=1.2];
+edge [fontname="Helvetica", fontsize=12, color="#555555"];
+subgraph cluster_c { label="CLIENT TIER"; style="rounded,dashed"; color="#999999"; fontname="Helvetica-Bold"; fontsize=14;
+ web [label="React Web App (mobile-first)\nFarmer / FPO / Buyer / Transporter / Admin views"]; }
+subgraph cluster_e { label="EDGE"; style="rounded,dashed"; color="#999999"; fontname="Helvetica-Bold"; fontsize=14;
+ nginx [label="Nginx reverse proxy\nHTTPS (TLS 1.2+), rate limit 100 req/min/IP", fillcolor="#fff4d6", color="#a07800"]; }
+subgraph cluster_a { label="APPLICATION TIER  -  Spring Boot 3 modular monolith (Java 21)"; style="rounded,dashed"; color="#999999"; fontname="Helvetica-Bold"; fontsize=14;
+ sec [label="Security module\nJWT + RBAC"]; usr [label="User & Profile\nmodule"]; inv [label="Crop & Lot\n(inventory) module"];
+ trd [label="Trading module\nrequirement / offer / order"]; log [label="Logistics\nmodule"]; ntf [label="Notification\nmodule"]; aud [label="Audit module"]; mkt [label="Market-price\nadapter"]; }
+subgraph cluster_d { label="DATA TIER"; style="rounded,dashed"; color="#999999"; fontname="Helvetica-Bold"; fontsize=14;
+ pg [label="PostgreSQL 16\n(primary store)", shape=cylinder, fillcolor="#e3ecfb", color="#2a4f9c"]; }
+subgraph cluster_x { label="EXTERNAL (behind adapter interfaces)"; style="rounded,dashed"; color="#999999"; fontname="Helvetica-Bold"; fontsize=14;
+ ext1 [label="Mandi price source\n(open data API / CSV)", fillcolor="#f3e6f7", color="#7a3a8c"]; ext2 [label="SMS / WhatsApp\n(Phase 2)", fillcolor="#f3e6f7", color="#7a3a8c"]; ext3 [label="Maps API\n(Phase 2)", fillcolor="#f3e6f7", color="#7a3a8c"]; }
+web -> nginx [label="HTTPS / JSON"]; nginx -> sec [label="REST /api/v1/*"];
+sec -> usr; sec -> inv; sec -> trd; sec -> log;
+trd -> inv [label="reserve qty"]; trd -> ntf; log -> ntf; trd -> aud; log -> aud;
+usr -> pg; inv -> pg; trd -> pg; log -> pg; aud -> pg; ntf -> pg;
+mkt -> pg [label="cache prices"]; ext1 -> mkt [label="pull every 6h"]; ntf -> ext2 [style=dashed]; log -> ext3 [style=dashed];
+}

@@ -1,0 +1,13 @@
+digraph G { rankdir=TB; bgcolor="white"; nodesep=0.4; ranksep=0.32;
+node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=15, color="#2f5d3a", fillcolor="#eaf4ec", width=4.6];
+edge [fontname="Helvetica", fontsize=12, color="#444444"];
+L [label="1  FARMER creates lot\nTomato, 500 kg, Grade A, Amravati"];
+R [label="2  BUYER posts requirement\nTomato, 400 kg, Grade A, deliver by 6 Oct, Nagpur"];
+O [label="3  FARMER submits offer\n400 kg at Rs 18/kg, valid 24 h"];
+A [label="4  BUYER accepts  ->  Order #1001 = Rs 7,200\nlot available: 500 kg -> 100 kg (one transaction)"];
+S [label="5  TRANSPORTER accepts shipment\nPickup 5 Oct, drop 6 Oct"];
+D [label="6  DELIVERED  ->  BUYER confirms receipt"];
+C [label="7  COMPLETED  (audit trail closed)"];
+L -> O; R -> O; O -> A; A -> S; S -> D; D -> C;
+{rank=same; L; R}
+}
