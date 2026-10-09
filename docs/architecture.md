@@ -1,3 +1,5 @@
+> Superseded by the Week 2 architecture report: see Week_2_Architecture_Design.docx
+
 # Architecture
 
 ```text
