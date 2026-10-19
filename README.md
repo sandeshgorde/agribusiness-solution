@@ -8,9 +8,10 @@ Deliverables for the Junior Software Developer: Agribusiness Solution internship
 |------|-------------|--------|
 | 1 | Requirements analysis and planning | Done |
 | 2 | Software architecture design and documentation | Done |
-| 3+ | Implementation | Not started |
+| 3 | Code implementation and unit testing (prototype) | Done |
+| 4 | Next task | Not started |
 
-> This repository currently contains **design and documentation only**. No application code has been written yet.
+> This repository contains design documentation (Weeks 1-2) and a small working prototype (Week 3) in [farmbridge-core](farmbridge-core). The prototype covers produce lot and buyer requirement validation plus matching, with 11 unit tests. It is a plain Java module, not the full Spring Boot application.
 
 ## Problem
 
@@ -46,6 +47,21 @@ More diagrams:
 
 Diagram sources (Graphviz) are in [`docs/diagrams/source`](docs/diagrams/source).
 
+## Week 3: Prototype
+
+A small working slice of the design, in [`farmbridge-core`](farmbridge-core):
+
+- `ProduceLot` and `BuyerRequirement`: immutable models that reject bad input (empty crop, quantity <= 0, grade not A/B/C)
+- `MatchingService`: a lot matches a requirement only if crop, quantity and grade all satisfy the buyer
+- 11 JUnit 5 tests covering success, each failure condition, and validation errors
+
+Run the tests (needs Java 21 and Maven):
+
+```bash
+cd farmbridge-core
+mvn test
+```
+
 ## Proposed stack
 
 - Backend: Java 21 + Spring Boot 3
@@ -55,6 +71,11 @@ Diagram sources (Graphviz) are in [`docs/diagrams/source`](docs/diagrams/source)
 - Deployment: Docker Compose (Nginx, app, database); cloud in a later week
 
 ## Docs
+
+**Week 3 (implementation)**
+
+- [Week 3 report: Code Implementation and Unit Testing](docs/Week_3_Code_Implementation_and_Unit_Testing.docx)
+- [Prototype code and tests](farmbridge-core)
 
 **Week 2 (architecture)**
 
