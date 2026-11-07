@@ -9,9 +9,9 @@ Deliverables for the Junior Software Developer: Agribusiness Solution internship
 | 1 | Requirements analysis and planning | Done |
 | 2 | Software architecture design and documentation | Done |
 | 3 | Code implementation and unit testing (prototype) | Done |
-| 4 | Next task | Not started |
+| 4 | Evaluation, debugging and presentation documentation | Done |
 
-> This repository contains design documentation (Weeks 1-2) and a small working prototype (Week 3) in [farmbridge-core](farmbridge-core). The prototype covers produce lot and buyer requirement validation plus matching, with 11 unit tests. It is a plain Java module, not the full Spring Boot application.
+> This repository contains design documentation (Weeks 1-2), a small working prototype (Week 3) and its evaluation and fixes (Week 4) in [farmbridge-core](farmbridge-core). The prototype covers produce lot and buyer requirement validation plus matching, with 17 unit tests. It is a plain Java module, not the full Spring Boot application.
 
 ## Problem
 
@@ -62,6 +62,17 @@ cd farmbridge-core
 mvn test
 ```
 
+## Week 4: Evaluation and debugging
+
+I attacked the Week 3 prototype with extra tests ([`BugHuntTest`](farmbridge-core/src/test/java/com/farmbridge/service/BugHuntTest.java)) and measured its speed ([`PerfCheck`](farmbridge-core/src/test/java/com/farmbridge/service/PerfCheck.java)).
+
+| Finding | Fix | Evidence |
+|---------|-----|----------|
+| NaN and Infinity quantity passed validation (`NaN <= 0` is false) | `!Double.isFinite(quantityKg) \|\| quantityKg <= 0` | 4 failing tests, now passing |
+| Regex grade check compiled a pattern on every object creation | Plain character check | 1M object pairs: 534-707 ms before, 6-72 ms after |
+
+Logs before and after each change are in [`docs/week4-logs`](docs/week4-logs). Timing is a crude single-machine loop, not a proper benchmark; the report explains the limits.
+
 ## Proposed stack
 
 - Backend: Java 21 + Spring Boot 3
@@ -71,6 +82,11 @@ mvn test
 - Deployment: Docker Compose (Nginx, app, database); cloud in a later week
 
 ## Docs
+
+**Week 4 (evaluation and debugging)**
+
+- [Week 4 report: Evaluation, Debugging and Presentation Documentation](docs/Week_4_Evaluation_Debugging_and_Presentation.docx)
+- [Before and after logs](docs/week4-logs)
 
 **Week 3 (implementation)**
 
