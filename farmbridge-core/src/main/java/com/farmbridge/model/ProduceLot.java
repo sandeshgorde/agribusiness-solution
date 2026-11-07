@@ -10,10 +10,10 @@ public class ProduceLot {
         if (cropName == null || cropName.isBlank()) {
             throw new IllegalArgumentException("Crop name must not be empty");
         }
-        if (quantityKg <= 0) {
-            throw new IllegalArgumentException("Quantity must be greater than zero");
+        if (!Double.isFinite(quantityKg) || quantityKg <= 0) {
+            throw new IllegalArgumentException("Quantity must be a finite number greater than zero");
         }
-        if (grade == null || !grade.matches("[ABC]")) {
+        if (grade == null || grade.length() != 1 || "ABC".indexOf(grade.charAt(0)) < 0) {
             throw new IllegalArgumentException("Grade must be A, B or C");
         }
         this.cropName = cropName.trim();
